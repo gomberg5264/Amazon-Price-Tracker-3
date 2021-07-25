@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+    {% block scripts %} 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+    {% endblock scripts %}
+    {% block title %}
+        Login
+    {% endblock %}
+
+    {% block form %}
+        <form method="post" action="">
+            {{ form.hidden_tag() }}
+
+            <fieldset>
+                <div class="form-group">
+                {% if username == 1 %}
+                    {{ form.username.label(class="form-label") }}
+                    {{ form.username(class="form-input") }}
+                {%else %}
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-input") }}
+                {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-input") }}
+                    <a href="/" style="color: blue; float: right; margin-top: 10px; margin-bottom: 10px">Forgot Password?</a>
+                </div>
+            </fieldset>
+
+            {{ form.submit(class="submit") }}
+            
+            <div class="form-link-group">
+                {% if username == 1 %}
+                    <a href="{{ url_for('login', username=0) }}" class="form-link">Login using email</a>
+                {% else %}
+                    <a href="{{ url_for('login', username=1) }}" class="form-link">Login using username</a>
+                {% endif %}
+                <a href="{{ url_for('register') }}" class="form-link">New here? Create an account</a>
+            <div>
+        </form>
+    {% endblock %}

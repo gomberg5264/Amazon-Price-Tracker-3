@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+    {% block scripts %} 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+    {% endblock scripts %}
+    {% block title %}
+        Registration
+    {% endblock %}
+
+    {% block form %}
+        <form method="post" action="">
+            {{ form.hidden_tag() }}
+
+            <fieldset>
+                <div class="form-group">
+                    {{ form.first_name.label(class="form-label") }}
+                    {{ form.first_name(class="form-input") }}
+                </div>
+                <div class="form-group">
+                    {{ form.last_name.label(class="form-label") }}
+                    {{ form.last_name(class="form-input") }}
+                </div>
+                <div class="form-group">
+                    {{ form.username.label(class="form-label") }}
+                    {{ form.username(class="form-input") }}
+                    {% for error in form.username.errors %}
+                        <p class="error-msg"> {{ error }} </p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-input") }}
+                    {% for error in form.email.errors %}
+                        <p class="error-msg"> {{ error }} </p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-input") }}
+                    {% for error in form.password.errors %}
+                        <p class="error-msg"> {{ error }} </p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_password.label(class="form-label") }}
+                    {{ form.confirm_password(class="form-input") }}
+                    {% for error in form.confirm_password.errors %}
+                        <p class="error-msg"> {{ error }} </p>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            {{ form.submit(class="submit") }}
+            
+            <div class="form-link-group">
+                <a href="{{ url_for('login', username=1) }}" class="form-link">Already have an account? Login</a>
+            <div>
+        </form>
+    {% endblock %}
