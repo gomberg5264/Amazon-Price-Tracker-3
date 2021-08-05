@@ -14,12 +14,15 @@ VALID_USERNAMES = re.compile(r"[a-zA-Z0-9@_.]+")
 VALID_PASSWORDS = re.compile(r"^(?=.*[@_.#!^$])(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9_@#.$^!]+)$")
 
 #Login form structure
-class LoginForm(FlaskForm):
+class LoginFormUsername(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    email = EmailField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('LOGIN')
 
+class LoginFormEmail(FlaskForm):
+    email = EmailField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('LOGIN')
 
 #Registration form structure
 class RegisterForm(FlaskForm):
