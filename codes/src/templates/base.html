@@ -16,13 +16,17 @@
     <body>
         <nav class="navbar">
             <div class="container">
-                <a href="{{ url_for('home')}}"><img src="{{ url_for('static', filename='logo.gif') }}"></a>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('home')}}"><img src="{{ url_for('static', filename='logo.gif') }}"></a>
+                {% else %}
+                    <a href="{{ url_for('login_username')}}"><img src="{{ url_for('static', filename='logo.gif') }}"></a>
+                {% endif %}
                 <div class="cover">
                     {% if user %}
                         <ul class="nav-buttons">
                             <li>Home</li>
                             <li>Profile</li>
-                            <li>Logout</li>
+                            <li><a href="{{ url_for('logout')}}">Logout</a></li>
                         </ul>
                     {% endif %}
                 <div> 

@@ -10,18 +10,13 @@
     {% endblock %}
 
     {% block form %}
-        <form method="post" action="">
+        <form method="POST" action="">
             {{ form.hidden_tag() }}
 
             <fieldset>
                 <div class="form-group">
-                {% if username == 1 %}
                     {{ form.username.label(class="form-label") }}
                     {{ form.username(class="form-input") }}
-                {%else %}
-                    {{ form.email.label(class="form-label") }}
-                    {{ form.email(class="form-input") }}
-                {% endif %}
                 </div>
 
                 <div class="form-group">
@@ -34,12 +29,24 @@
             {{ form.submit(class="submit") }}
             
             <div class="form-link-group">
-                {% if username == 1 %}
-                    <a href="{{ url_for('login', username=0) }}" class="form-link">Login using email</a>
-                {% else %}
-                    <a href="{{ url_for('login', username=1) }}" class="form-link">Login using username</a>
-                {% endif %}
+                <a href="{{ url_for('login_email') }}" class="form-link">Login using email</a>
                 <a href="{{ url_for('register') }}" class="form-link">New here? Create an account</a>
             <div>
         </form>
+
+        <div class="flash">
+            {% for msg in get_flashed_messages() %}
+                <button type="button" class="flash-message" id="message" onclick="disappear()">
+                    {{ msg }}
+                </button>
+            {% endfor %}
+        </div>
+
+        <script>
+            function disappear() {
+                var button = document.getElementById("message");
+                var classes = button.classList;
+                classes.add("flash-message-disappear");
+            }
+        </script>
     {% endblock %}
