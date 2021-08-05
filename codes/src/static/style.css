@@ -32,6 +32,11 @@
     padding: 20px;
 }
 
+.nav-buttons a {
+    color: goldenrod;
+    text-decoration: none;
+}
+
 .nav-buttons li {
     display: inline-block;
     padding: 10px;
@@ -42,3 +47,10 @@
     transition: all 0.3s;
     cursor: pointer;
 }
+
+.nav-buttons li:hover a {
+    color:blanchedalmond;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
