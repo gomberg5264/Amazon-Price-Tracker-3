@@ -49,3 +49,11 @@ class RegisterForm(FlaskForm):
         match = re.match(VALID_PASSWORDS, field.data)
         if not match:
             raise ValidationError(REGEX)
+    
+#Profile form structure
+class ProfileForm(FlaskForm):
+    first_name = StringField('First Name')
+    last_name = StringField('Last Name')
+    email = EmailField('Email', validators=[Email("Please check your email again.")])
+    submit = SubmitField('SAVE')
+    cancel = SubmitField("CANCEL")
