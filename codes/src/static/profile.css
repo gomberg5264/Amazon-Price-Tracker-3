@@ -1,0 +1,126 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.username-title {
+    padding: 30px;
+    margin-top: 30px;
+    color: rgba(0, 0, 255, 0.548)
+}
+
+.username-title h1 {
+    font-size: 30px;
+}
+
+.username-title hr {
+    margin-top: 10px;
+    color: rgba(0, 140, 255, 0.787);
+}
+
+form, .flash {
+    width: 30%;
+    margin: 20px auto;
+}
+
+fieldset {
+    border: 0px;
+    border-bottom: 1px solid red;
+    padding-bottom: 30px;
+}
+
+fieldset span {
+    padding-left: 40px;
+    cursor: pointer;
+}
+
+fieldset span a {
+    color: blue;
+}
+
+.form-group {
+    padding: 20px;
+}
+
+.label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.input {
+    font-size: 16px;
+    border: 0px;
+    border-bottom: 1px solid black;
+    padding: 0px 5px 5px 5px;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.final-buttons {
+    width: 100%;
+    padding-left: 30px;
+}
+
+.holder {
+    width: 49%;
+    display: inline-block;
+}
+
+.submit {
+    margin: 20px auto;
+    padding: 10px;
+    width: 160px;
+    color: white;
+    background-color: rgba(81, 2, 138, 0.568);
+    border-radius: 5px;
+    border: 0px;
+}
+
+.flash {
+    margin:  30px auto;
+    display: flex;
+    align-items: center;
+}
+
+.flash-message {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px;
+    background-color: paleturquoise;
+    border-radius: 10px;
+    border: 0px;
+    margin-top: 20px;
+    display: block;
+    opacity: 1;
+}
+
+.flash-message-disappear {
+    opacity: 0;
+    transition: all 2s;
+}
+
+@media (max-width: 1500px) {
+    form, .flash {
+        width: 40%;
+    }
+}
+
+@media (max-width: 999px) {
+    form, .flash {
+        width: 50%;
+    }
+}
+
+@media (max-width: 800px) {
+    form, .flash {
+        width: 70%;
+    }
+}
+
+@media (max-width: 600px) {
+    form, .flash {
+        width: 100%;
+    }
+}

@@ -42,12 +42,6 @@
     padding: 10px;
 }
 
-.nav-buttons li:hover {
-    color:blanchedalmond;
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
 .nav-buttons li:hover a {
     color:blanchedalmond;
     transition: all 0.3s;

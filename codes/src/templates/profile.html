@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+    {% block scripts %}
+        <link rel="stylesheet" href="{{ url_for('static', filename="profile.css") }}">
+    {% endblock scripts %}
+    
+    {% block title %}
+        Profile
+    {% endblock %}
+
+    {%block form %}
+        <div class="username-title">
+            <h1> @{{ current_user.username }}</h1>
+            <hr>
+        </div>
+        
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+
+            <fieldset>
+                <div class="form-group">
+                    {{ form.first_name.label(class="label") }}
+                    {{ form.first_name(class="input", value=current_user.first_name) }}
+                </div>
+                <div class="form-group">
+                    {{ form.last_name.label(class="label") }}
+                    {{ form.last_name(class="input", value=current_user.last_name) }}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="label") }}
+                    {{ form.email(class="input", value=current_user.email) }}
+                </div>
+
+                <div class="final-buttons">
+                    <div class="holder">
+                        {{ form.submit(class="submit", value="SAVE") }}
+                    </div>
+                    <div class="holder">
+                        {{ form.cancel(class="submit") }}
+                    </div>
+                </div>
+
+                <span>Want to change password?<a herf="/"> Click here</a></span> 
+            </fieldset>
+        </form>
+        
+        <div class="flash">
+            {% for message in get_flashed_messages() %}
+                <button type="submit" class="flash-message" id="message" onclick="disappear()">{{ message }}</button>
+            {% endfor %}
+        </div>
+
+        <script>
+            function disappear() {
+                var button = document.getElementById("message");
+                var classes = button.classList;
+                classes.add("flash-message-disappear");
+            }
+        </script>
+    {% endblock %}

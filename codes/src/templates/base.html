@@ -22,10 +22,10 @@
                     <a href="{{ url_for('login_username')}}"><img src="{{ url_for('static', filename='logo.gif') }}"></a>
                 {% endif %}
                 <div class="cover">
-                    {% if user %}
+                    {% if current_user.is_authenticated %}
                         <ul class="nav-buttons">
-                            <li>Home</li>
-                            <li>Profile</li>
+                            <li><a href="{{ url_for('home') }}">Home</a></li>
+                            <li><a href="{{ url_for('profile', username=current_user.username) }}">Profile</a></li>
                             <li><a href="{{ url_for('logout')}}">Logout</a></li>
                         </ul>
                     {% endif %}
