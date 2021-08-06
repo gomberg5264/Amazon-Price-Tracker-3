@@ -1,7 +1,7 @@
 from flask import render_template, url_for, redirect, request, session, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from src import app, db
-from src.forms import LoginFormUsername, LoginFormEmail, RegisterForm
+from src.forms import LoginFormUsername, LoginFormEmail, RegisterForm, ProfileForm
 from src.models import User
 
 @app.route('/')
@@ -11,7 +11,44 @@ def index():
 @app.route('/home')
 @login_required
 def home(): 
-    return render_template('index.html', user=session.get('user'))
+    return render_template('index.html')
+
+@app.route('/profile/<username>', methods=['GET', 'POST'])
+@login_required
+def profile(username: str):
+    form = ProfileForm(request.form)
+    old = {'first': current_user.first_name, 'last': current_user.last_name, 'email': current_user.email}
+    flag = False
+
+    if form.cancel.data:
+        return redirect(url_for('home'))
+    if request.method == 'POST' and form.validate_on_submit():
+        form_data = {'first': form.first_name.data, 'last': form.last_name.data, 'email': form.email.data}
+        for field in old:
+            if old[field] != form_data[field] and field != 'email':
+                flag = not flag
+                if field == 'first':
+                    current_user.first_name =  form_data[field]
+                else:
+                    current_user.last_name = form_data[field]
+                continue
+            elif old[field] != form_data[field]:
+                if User.query.filter_by(email=form.email.data).first():
+                    flash("An account with that email already exists.")
+                    ############################################
+                    #Remove - Redirect to home with flash
+                    return redirect(url_for('profile', username=current_user.username))
+                
+                flag = not flag
+                current_user.email = form_data[field]
+            else:
+                continue
+        db.session.commit()
+        if flag:
+            print("Changed")
+            flash("Profile details changed successfully.")
+        return redirect(url_for('home'))
+    return render_template('profile.html', form=form)
 
 @app.route('/login/username', methods=['GET', 'POST'])
 def login_username():
