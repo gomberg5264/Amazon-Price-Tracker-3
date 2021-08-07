@@ -1,0 +1,112 @@
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.add {
+    padding: 0px 30px;
+}
+
+.add span {
+    font-size: 20px;
+    padding: 10px;
+    font-family: 'Roboto Mono', monospace;    
+}
+
+.add-btn {
+    background-color: rgba(255, 255, 255, 0);
+    border: 0px;
+    font-size: 25px;
+}
+
+.add-btn i {
+    color: red;
+    cursor: pointer;
+}
+
+.overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: none;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.item-form {
+    border-radius: 10px;
+    border: 1px solid;
+    padding: 30px;
+    width: 20%;
+    margin: 40px auto;
+    background-color: rgb(255, 255, 255);
+}
+
+.close-btn {
+    float: right;
+    background-color: rgba(255, 255, 255, 1);
+    border: 0px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.close-btn a {
+    color: rgb(92, 195, 255);
+}
+
+.form-group {
+    font-size: 18px;
+    width: 100%;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form-input {
+    width: 80%;
+    border: 1px solid;
+    padding: 5px;
+}
+
+.item-form fieldset {
+    border: 0px;
+}
+
+.form-add-btn {
+    width: 150px;
+    font-size: 16px;
+    color: #fff;
+    padding: 10px;
+    border: 0px;
+    border-radius: 10px;
+    background-color: rgba(0, 174, 255, 0.815);
+}
+
+table {
+    padding: 30px;
+}
+
+@media (max-width: 1500px) {
+    .item-form, .flash {
+        width: 40%;
+    }
+}
+
+@media (max-width: 999px) {
+    .item-form, .flash {
+        width: 50%;
+    }
+}
+
+@media (max-width: 800px) {
+    .item-form, .flash {
+        width: 70%;
+    }
+}
+
+@media (max-width: 600px) {
+    .item-form, .flash {
+        width: 80%;
+    }
+}

@@ -84,6 +84,11 @@ fieldset span a {
     align-items: center;
 }
 
+.flash-one {
+    margin:  30px auto;
+    display: none;
+}
+
 .flash-message {
     width: 100%;
     font-size: 15px;
