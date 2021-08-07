@@ -1,8 +1,11 @@
+from flask import flash
 from flask_wtf import FlaskForm
 import re
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
+from src.scraper import url_checker
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms.fields.html5 import EmailField, URLField
+from wtforms.widgets.html5 import NumberInput
+from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError, url, NumberRange
 
 REGEX = """Must contain
 - atleast one lowercase letter
@@ -57,3 +60,16 @@ class ProfileForm(FlaskForm):
     email = EmailField('Email', validators=[Email("Please check your email again.")])
     submit = SubmitField('SAVE')
     cancel = SubmitField("CANCEL")
+
+#Form structure to add items
+class ItemForm(FlaskForm):
+    url = URLField('Link of the item', default="", validators=[DataRequired(), url()])
+    price = IntegerField('Price', default=0, validators=[NumberRange(min=0, max=10000000000)], widget=NumberInput())
+    add = SubmitField('ADD')
+
+    def validate_url(form, field):
+        valid, _, _ = url_checker(str(field.data))
+        if not valid:
+            print("Not an amazon website")
+            flash("Not an amazon website.")
+            raise ValidationError("Not a valid product URL")
