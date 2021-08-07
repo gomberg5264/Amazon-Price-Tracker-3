@@ -1,17 +1,31 @@
 from flask import render_template, url_for, redirect, request, session, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from src import app, db
-from src.forms import LoginFormUsername, LoginFormEmail, RegisterForm, ProfileForm
-from src.models import User
+from src.forms import LoginFormUsername, LoginFormEmail, RegisterForm, ProfileForm, ItemForm
+from src.models import User, Products
+from src.scraper import extract_product_details, get_html
 
 @app.route('/')
 def index():
     return redirect(url_for('login_username'))
 
-@app.route('/home')
+@app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home(): 
-    return render_template('index.html')
+    form = ItemForm(request.form)
+    if request.method == 'POST' and form.validate_on_submit():
+        details = extract_product_details(get_html(form.url.data))
+        user_products = Products.query.filter_by(product_id=details["asin"], user_id=current_user.username).first()
+        if user_products:
+            flash("Product already exists in list.")        
+            return redirect(url_for('home'))   
+        product = Products(details["asin"], details["name"], details["url"], details["price"],\
+            form.price.data, details["availability"], details["last-check"], current_user.username)
+        db.session.add(product)
+        db.session.commit()
+        flash("Product added to the list!")
+        return redirect(url_for('home'))   
+    return render_template('index.html', form=form)
 
 @app.route('/profile/<username>', methods=['GET', 'POST'])
 @login_required
@@ -35,8 +49,6 @@ def profile(username: str):
             elif old[field] != form_data[field]:
                 if User.query.filter_by(email=form.email.data).first():
                     flash("An account with that email already exists.")
-                    ############################################
-                    #Remove - Redirect to home with flash
                     return redirect(url_for('profile', username=current_user.username))
                 
                 flag = not flag
@@ -86,8 +98,6 @@ def register():
     if request.method == 'POST' and form.validate_on_submit():
         username = User.query.filter_by(username=form.username.data).first()
         email = User.query.filter_by(email=form.email.data).first()
-
-        print(username, email) 
 
         if username:
             flash("Username already exists. Please enter different username.")
