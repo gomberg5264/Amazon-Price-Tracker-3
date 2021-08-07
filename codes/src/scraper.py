@@ -19,18 +19,18 @@ def url_checker(url: str)->Tuple:
     """
     Function to validate the url. It checks whether the url is of an amazon product or not.
     """
-    url_pattern = re.compile(r"https://www.amazon.in/.*/dp/")
+    url_pattern = re.compile(r"https://www\.amazon\.in.*/dp/")
     match = re.match(url_pattern, url)
     if match:
-        return True, url[match.end():match.end() + 10]
-    return False, None
+        return True, url[match.end():match.end() + 10], url[:match.end() + 10]
+    return False, None, None
 
 
 def get_html(url: str)->Tuple:
     """
     Fetches the HTML page by sending a GET request. Returns the HTML content and the ASIN of the product
     """
-    valid_url, asin = url_checker(url)
+    valid_url, asin, url = url_checker(url)
     if valid_url:
         response = requests.get(url, headers=HDR)
         html = response.content
@@ -47,7 +47,7 @@ def extract_product_details(val_tuple: tuple)->Dict:
                 "url": "",
                 "price": None, 
                 "availability": True, 
-                "last-check": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+                "last-check": datetime.now()}
 
     html, asin, url = val_tuple
     details["asin"] = asin
@@ -57,6 +57,8 @@ def extract_product_details(val_tuple: tuple)->Dict:
             
     soup = BeautifulSoup(html, "html.parser")
     price = soup.find(id="priceblock_ourprice")
+    if price is None:
+        price = soup.find(id="priceblock_dealprice")
     title = soup.find(id="productTitle")
 
     #If price is None, then most likely it is an amazon page for books, where different prices are listed for different copies like 
@@ -104,5 +106,3 @@ def main():
     details = extract_product_details(get_html(url))
     if details["price"] <= target_price:
         print("The product is cheaper! Buy it now: ", details["url"]) 
-
-main()
