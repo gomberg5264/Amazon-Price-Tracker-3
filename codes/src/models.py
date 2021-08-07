@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20), unique=True, nullable=False, primary_key=True)
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=False)
+    products = db.relationship('Products', backref='products', lazy=True)
 
     def __repr__(self):
         """
@@ -35,6 +36,34 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password, password)
+
+#Products table
+class Products(UserMixin, db.Model):
+    __tablename__ = 'products'
+    product_id = db.Column(db.String(20), primary_key=True)
+    product_name = db.Column(db.String(200), nullable=False)
+    url = db.Column(db.String(400), nullable=False)
+    product_price = db.Column(db.BigInteger)
+    expected_price = db.Column(db.BigInteger, nullable=False)
+    availability = db.Column(db.Boolean, default=True, nullable=False)
+    last_check = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.String(20), db.ForeignKey('users.username'), primary_key=True, nullable=False)
+
+    def __repr__(self):
+        """
+        Details of the user instance
+        """
+        return "username - {}, product_id - {}".format(self.user_id, self.product_id)
+
+    def __init__(self, product_id, product_name, url, product_price, expected_price, availability, last_check, user_id):
+        self.product_id = product_id
+        self.product_name = product_name
+        self.url = url
+        self.product_price = product_price
+        self.expected_price = expected_price
+        self.availability = availability
+        self.last_check = last_check
+        self.user_id = user_id
 
 
 #Creating the databases
