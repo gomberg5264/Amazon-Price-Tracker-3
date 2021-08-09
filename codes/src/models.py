@@ -1,6 +1,8 @@
 from flask_login import UserMixin
-from src import db
+from src import db, app
 from werkzeug.security import generate_password_hash, check_password_hash
+from jwt import encode
+from time import time
 
 #User table
 class User(UserMixin, db.Model):
@@ -36,6 +38,10 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password, password)
+
+    def get_reset_token(self):
+        return encode({'reset_password': self.username, 'exp': time() + 600}, key=app.config["SECRET_KEY"])
+
 
 #Products table
 class Products(UserMixin, db.Model):
