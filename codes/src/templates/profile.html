@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <span>Want to change password?<a herf="/"> Click here</a></span> 
+                <span>Want to change password?<a href="{{ url_for('reset_password', username=current_user.username) }}"> Click here</a></span> 
             </fieldset>
         </form>
         

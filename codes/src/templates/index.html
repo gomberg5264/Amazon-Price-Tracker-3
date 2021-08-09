@@ -6,6 +6,9 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet"> 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inconsolata&family=Source+Code+Pro&display=swap" rel="stylesheet"> 
     {% endblock scripts %}
     {% block content %}
         <div class="overlay" id="overlay">
@@ -53,6 +56,24 @@
             </span>
         </div>
 
+        <div class="items-container">
+            <table class="items-table" id="table">
+                <tr>
+                    <th class="col-width-1"> Product ID </th>
+                    <th class="col-width-2"> Name </th>
+                    <th class="col-width-3"> User Price </th>
+                    <th> <i class="fa fa-trash" aria-hidden="true"></i> </th>
+                </tr>
+                {% for items in current_user.products %}
+                    <tr>
+                        <td class="col-width-1"> {{ items.product_id }} </td>
+                        <td class="col-width-2"> {{ items.product_name }} </td>
+                        <td class="col-width-3"> {{ items.expected_price }} </td>
+                        <td class="trash-color"> <a href="{{ url_for('remove', item_id=items.product_id) }}"><i class="fa fa-trash" aria-hidden="true"></i></a> </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        <div>
 
         <script language="javascript" type="text/javascript">
             function overlay() {
