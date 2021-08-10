@@ -17,6 +17,9 @@
                 <div class="form-group">
                     {{ form.email.label(class="form-label") }}
                     {{ form.email(class="form-input") }}
+                    {% for error in form.email.errors %}
+                        <p class="error-msg"> {{ error }} </p>
+                    {% endfor %}
                 </div>
 
                 <div class="form-group">
