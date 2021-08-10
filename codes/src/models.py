@@ -1,8 +1,7 @@
 from flask_login import UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer 
 from src import db, app
 from werkzeug.security import generate_password_hash, check_password_hash
-from jwt import encode
-from time import time
 
 #User table
 class User(UserMixin, db.Model):
@@ -40,8 +39,8 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password, password)
 
     def get_reset_token(self):
-        return encode({'reset_password': self.username, 'exp': time() + 600}, key=app.config["SECRET_KEY"])
-
+        serial_data = Serializer(app.config["SECRET_KEY"], 600)
+        return serial_data.dumps({'user_name': self.username}).decode('utf-8')
 
 #Products table
 class Products(UserMixin, db.Model):
