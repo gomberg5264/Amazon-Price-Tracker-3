@@ -1,9 +1,12 @@
 from flask import render_template, url_for, redirect, request, session, flash
 from flask_login import login_user, logout_user, current_user, login_required
-from src import app, db
-from src.forms import LoginFormUsername, LoginFormEmail, RegisterForm, ProfileForm, ItemForm
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer 
+from src import app, db, send_mail, async_mail
+from src.forms import LoginFormUsername, LoginFormEmail, RegisterForm, ProfileForm, ItemForm, PasswordReset, ForgotPassword
 from src.models import User, Products
 from src.scraper import extract_product_details, get_html
+import threading
+from werkzeug.security import generate_password_hash
 
 @app.route('/')
 def index():
@@ -112,6 +115,73 @@ def register():
         flash("Account created successfully. Please login.")
         return redirect(url_for('login_username'))
     return render_template('registration.html', form=form)
+
+@app.route('/remove/<item_id>', methods=["GET"])
+@login_required
+def remove(item_id: str):
+    Products.query.filter_by(product_id=item_id, user_id=current_user.username).delete()
+    db.session.commit()
+    return redirect(url_for('home'))   
+
+@app.route('/password_change/<username>', methods=["GET", "POST"])
+@login_required
+def reset_password(username: str):
+    form = PasswordReset(request.form)
+    if request.method == 'POST' and form.validate_on_submit():
+        if current_user.verify_password(form.old_password.data):
+            print("valid")
+            new_pwd_hash = generate_password_hash(form.new_password.data)
+            current_user.password = new_pwd_hash
+            db.session.commit()
+            return redirect(url_for("home"))
+        flash("Wrong current password.")
+    return render_template("reset_password.html", form=form)
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
+    form = ForgotPassword(request.form)
+    if request.method == "POST" and form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            subject = "Reset Password"
+            body = 'Link to reset your password. Link expires in 10 minutes.\n{}\n\n'.format(url_for('set_new_pass', token=user.get_reset_token(), _external=True))
+            body += 'If you did not make this request, ignore this mail.'
+            msg = send_mail(subject=subject, body=body, recipient=user.email)
+
+            mail_thread = threading.Thread(target=async_mail, args=(msg, ))
+            mail_thread.start()
+            flash("An email has been sent to your account.")
+        else:
+            flash("An account with that email does not exist.")
+        return redirect(url_for("forgot_password"))
+    return render_template('forgot_password.html', form=form)
+
+@app.route('/reset_password/<token>', methods=['POST', 'GET', 'POST'])
+def set_new_pass(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
+    serializer = Serializer(app.config["SECRET_KEY"])
+    try:
+        user_name = serializer.loads(token)["user_name"]
+    except Exception as e:
+        user_name = None
+
+    user = User.query.filter_by(username=user_name).first()
+    if user is None:
+        flash("Token invalid or has expired.")
+        return redirect(url_for('login_username'))
+    
+    form = PasswordReset(request.form)
+    if request.method == 'POST' and form.validate_on_submit():
+        new_pwd_hash = generate_password_hash(form.new_password.data)
+        user.password = new_pwd_hash
+        db.session.commit()
+        return redirect(url_for('login_username'))
+    return render_template("reset_password.html", form=form, password=user.password)
 
 @app.route('/logout')
 def logout():
