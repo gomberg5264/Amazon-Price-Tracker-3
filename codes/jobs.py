@@ -28,6 +28,7 @@ def check_product_price(slice):
             body = "The item {} is available at price {}!! Hurry now to buy it today! The link to the item - \n".format(i.product_name, i.expected_price)
             html = "<a href={}> Click here </a>".format(i.url)
             logging.warning("Mail sent to {}".format(email))
+            print("Sent")
             async_mail(send_mail(subject=subject, recipient=email, body=body, html=html))
     sys.exit(1)
 
@@ -45,9 +46,8 @@ def check_threads():
         i.start()
 
 def loop():
-    every(1).minutes.do(check_threads)
+    every(1).hour.do(check_threads)
     while True:
-        print("Hey")
         run_pending()
         sleep(1)
 
