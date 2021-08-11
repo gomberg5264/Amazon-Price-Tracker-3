@@ -2,7 +2,7 @@ from flask import render_template, url_for, redirect, request, session, flash
 from flask_login import login_user, logout_user, current_user, login_required
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer 
 from src import app, db, send_mail, async_mail
-from src.forms import LoginFormUsername, LoginFormEmail, RegisterForm, ProfileForm, ItemForm, PasswordReset, ForgotPassword
+from src.forms import LoginFormUsername, LoginFormEmail, RegisterForm, ProfileForm, ItemForm, PasswordReset, ForgotPassword, ResetPassword
 from src.models import User, Products
 from src.scraper import extract_product_details, get_html
 import threading
@@ -175,13 +175,13 @@ def set_new_pass(token):
         flash("Token invalid or has expired.")
         return redirect(url_for('login_username'))
     
-    form = PasswordReset(request.form)
+    form = ResetPassword(request.form)
     if request.method == 'POST' and form.validate_on_submit():
         new_pwd_hash = generate_password_hash(form.new_password.data)
         user.password = new_pwd_hash
         db.session.commit()
         return redirect(url_for('login_username'))
-    return render_template("reset_password.html", form=form, password=user.password)
+    return render_template("forgot_password_reset.html", form=form, password=user.password)
 
 @app.route('/logout')
 def logout():

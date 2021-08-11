@@ -92,3 +92,16 @@ class PasswordReset(FlaskForm):
 class ForgotPassword(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email("Please check your email again.")])
     reset = SubmitField("Reset Password")
+
+class ResetPassword(FlaskForm):
+    new_password = PasswordField('New Password', validators=[DataRequired(), Length(min=8, max=20, message="Length of password should be between 8 and 20 characters")])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('new_password', message="Passwords not matching")])
+    submit = SubmitField('Change')
+
+    def validate_new_password(form, field):
+        """
+        Validates the password format. Checks whether it follows a certain format or not.
+        """
+        match = re.match(VALID_PASSWORDS, field.data)
+        if not match:
+            raise ValidationError(REGEX)
