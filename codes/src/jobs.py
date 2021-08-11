@@ -1,13 +1,15 @@
 import math
-from os import name
+import logging
 from src import db, app, async_mail, send_mail
 from src.models import User, Products
 from src.scraper import get_html, extract_product_details
-from threading import Thread, current_thread, get_ident
+from threading import Thread
 from schedule import every, run_pending
 import sys
 from time import sleep
 from typing  import Tuple
+
+logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(asctime)s - %(message)s', filename='mails.log')
 
 def get_products_list():
     products = Products.query.all()
@@ -26,6 +28,7 @@ def check_product_price(slice):
             subject = "Item at price you wanted!"
             body = "The item {} is available at price {}!! Hurry now to buy it today! The link to the item - \n".format(i.product_name, i.expected_price)
             html = "<a href={}> Click here </a>".format(i.url)
+            logging.warn("Mail sent to {}".format(email))
             async_mail(send_mail(subject=subject, recipient=email, body=body, html=html))
     sys.exit(1)
 

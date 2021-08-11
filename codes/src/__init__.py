@@ -24,6 +24,7 @@ app.config["MAIL_SENDER"] = js_file["MAIL_SENDER"]
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 mail = Mail(app)
+login_manager.login_view = 'login_username'
 
 from src.models import User
 @login_manager.user_loader
