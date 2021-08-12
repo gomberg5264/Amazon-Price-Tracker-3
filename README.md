@@ -6,12 +6,13 @@ If the price drops below the desired, price, the app will send an email to the u
 
 - - -
 
-## Output
-(output-1.jpeg)
+## On completion 
 
-(output-2.jpeg)
+(https://github.com/vedant-jad99/Amazon-Price-Tracker/blob/master/output-1.jpeg)
 
-(output-3.jpeg)
+(https://github.com/vedant-jad99/Amazon-Price-Tracker/blob/master/output-2.jpeg)
+
+(https://github.com/vedant-jad99/Amazon-Price-Tracker/blob/master/output-3.jpeg)
 
 - - -
 
