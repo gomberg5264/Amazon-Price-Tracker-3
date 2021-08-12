@@ -50,8 +50,8 @@ def send_request():
     get(app.config["HEROKU_URL"])
 
 def loop():
-    every(2).hour.do(check_threads)
-    every(25).minute.do(send_request)
+    every(2).hours.do(check_threads)
+    every(25).minutes.do(send_request)
     while True:
         run_pending()
         sleep(1)
