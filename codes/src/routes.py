@@ -28,7 +28,7 @@ def home():
         db.session.commit()
         flash("Product added to the list!")
         return redirect(url_for('home'))   
-    return render_template('index.html', form=form)
+    return render_template('home.html', form=form)
 
 @app.route('/profile/<username>', methods=['GET', 'POST'])
 @login_required
