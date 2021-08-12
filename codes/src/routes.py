@@ -17,6 +17,9 @@ def index():
 def home(): 
     form = ItemForm(request.form)
     if request.method == 'POST' and form.validate_on_submit():
+        if form.url.data is None or form.url.data.strip() == "":
+            flash("URL is empty. Please enter valid URL.")
+            return redirect(url_for('home'))
         details = extract_product_details(get_html(form.url.data))
         user_products = Products.query.filter_by(product_id=details["asin"], user_id=current_user.username).first()
         if user_products:
