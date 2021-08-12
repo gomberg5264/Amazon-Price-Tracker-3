@@ -1,4 +1,3 @@
-from flask import request
 from requests import get
 import math
 import logging
@@ -48,14 +47,11 @@ def check_threads():
         i.start()
 
 def send_request():
-    with app.test_request_context():
-        # resp = get(request.host_url)
-        # print(resp)
-        print(request.host_url)
+    get(app.config["HEROKU_URL"])
 
 def loop():
-    every(1).hour.do(check_threads)
-    every(1).second.do(send_request)
+    every(2).hour.do(check_threads)
+    every(25).minute.do(send_request)
     while True:
         run_pending()
         sleep(1)

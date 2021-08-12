@@ -19,7 +19,7 @@
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('home')}}"><img src="{{ url_for('static', filename='logo.gif') }}"></a>
                 {% else %}
-                    <a href="{{ url_for('login_username')}}"><img src="{{ url_for('static', filename='logo.gif') }}"></a>
+                    <a href="{{ url_for('index')}}"><img src="{{ url_for('static', filename='logo.gif') }}"></a>
                 {% endif %}
                 <div class="cover">
                     {% if current_user.is_authenticated %}

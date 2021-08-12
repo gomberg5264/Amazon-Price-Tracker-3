@@ -1,0 +1,53 @@
+{% extends 'base.html'%}
+    {% block scripts %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Share+Tech+Mono&family=Work+Sans&display=swap" rel="stylesheet">  
+        <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet"> 
+    {% endblock %}
+    {% block title %}
+        Amazon Price Tracker
+    {% endblock %}
+
+    {% block content %}
+        <div class="main-title">
+            <h1> Amazon Price Tracker </h1>
+        </div>
+        <div class="main-body"> 
+                <h3> Buy your favourite products on Amazon, in your budget. </h3> 
+                <p>
+                    Welcome to the Amazon Price Tracker. With this app, you can track the price of your favourite products on Amazon.
+                    Just follow the four simple steps to get started.
+                    <br>
+                    <button class="start-btn" type="button"><a href="{{ url_for('login_username')}}">GET STARTED</a></button>
+                </p>
+
+            <div class="instructions">
+                <div class="placards animated animatedFadeInUp fadeInUp">
+                    Step 1:
+                    <div class="instruction">
+                        Create an account, and log in.
+                    </div>
+                </div>
+                <div class="placards animated animatedFadeInUp fadeInUp">
+                    Step 2:
+                    <div class="instruction">
+                        In the home screen, click on the add item button.
+                    </div>
+                </div>
+                <div class="placards animated animatedFadeInUp fadeInUp">
+                    Step 3:
+                    <div class="instruction">
+                        Enter the url of the amazon product page, and the desired price
+                    </div>
+                </div>
+                <div class="placards animated animatedFadeInUp fadeInUp">
+                    Step 4:
+                    <div class="instruction">
+                        Get notified by email as soon as the price hits your desired price.
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

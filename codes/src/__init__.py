@@ -20,6 +20,7 @@ app.config["MAIL_USE_TLS"] = js_file["MAIL_USE_TLS"]
 app.config["MAIL_USERNAME"] = js_file["MAIL_USERNAME"]
 app.config["MAIL_PASSWORD"] = js_file["MAIL_PASSWORD"]
 app.config["MAIL_SENDER"] = js_file["MAIL_SENDER"]
+app.config["HEROKU_URL"] = js_file["HEROKU_URL"]
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)

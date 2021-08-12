@@ -8,5 +8,6 @@
     "MAIL_USE_TLS": true,
     "MAIL_USERNAME": "apt.automated.query@gmail.com",
     "MAIL_PASSWORD": "larcorn@54",
-    "MAIL_SENDER": "Amazon Price Tracker"
+    "MAIL_SENDER": "Amazon Price Tracker",
+    "HEROKU_URL": "https://amazon-price-tracker-flaskapp.herokuapp.com/"
 }
