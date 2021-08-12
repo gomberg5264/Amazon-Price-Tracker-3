@@ -2,10 +2,16 @@
 
 ## Idea
 A simple web app that let's you track the prices of items that you wish to buy on Amazon at a budget rate.
+If the price drops below the desired, price, the app will send an email to the user, every two hours, notifying about it.
 
 - - -
 
 ## Output
+(output-1.jpeg)
+
+(output-2.jpeg)
+
+(output-3.jpeg)
 
 - - -
 
