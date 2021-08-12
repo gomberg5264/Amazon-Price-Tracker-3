@@ -1,6 +1,8 @@
+from flask import request
+from requests import get
 import math
 import logging
-from src import db, async_mail, send_mail
+from src import db, app, async_mail, send_mail
 from src.models import User, Products
 from src.scraper import get_html, extract_product_details, main
 from threading import Thread
@@ -45,8 +47,15 @@ def check_threads():
     for i in db_check:
         i.start()
 
+def send_request():
+    with app.test_request_context():
+        # resp = get(request.host_url)
+        # print(resp)
+        print(request.host_url)
+
 def loop():
     every(1).hour.do(check_threads)
+    every(1).second.do(send_request)
     while True:
         run_pending()
         sleep(1)
