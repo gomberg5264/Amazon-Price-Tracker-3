@@ -63,7 +63,7 @@ class ProfileForm(FlaskForm):
 
 #Form structure to add items
 class ItemForm(FlaskForm):
-    url = URLField('Link of the item', default="", validators=[DataRequired(), url()])
+    url = URLField('Link of the item', default="", validators=[url()])
     price = IntegerField('Price', default=0, validators=[NumberRange(min=0, max=10000000000)], widget=NumberInput())
     add = SubmitField('ADD')
 
