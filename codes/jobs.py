@@ -3,7 +3,7 @@ import math
 import logging
 from src import db, app, async_mail, send_mail
 from src.models import User, Products
-from src.scraper import get_html, extract_product_details, main
+from src.scraper import get_html, extract_product_details, HDR
 from threading import Thread
 from schedule import every, run_pending
 import sys
@@ -47,11 +47,11 @@ def check_threads():
         i.start()
 
 def send_request():
-    get(app.config["HEROKU_URL"])
+    get(app.config["HEROKU_URL"], headers=HDR)
 
 def loop():
     every(2).hours.do(check_threads)
-    every(25).minutes.do(send_request)
+    every(15).minutes.do(send_request)
     while True:
         run_pending()
         sleep(1)
