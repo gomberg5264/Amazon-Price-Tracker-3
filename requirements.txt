@@ -27,4 +27,4 @@ SQLAlchemy==1.4.22
 urllib3==1.26.6
 Werkzeug==2.0.1
 WTForms==2.3.3
-pyquil 1.9.0
+pyquil==1.9.0
